@@ -8,7 +8,9 @@ public class ControleFinanceiro {
     List<Lancamento> lancamentos = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
 
+    // Coleta os dados para criar um novo objeto de Lancamento e colocar na lista
     public void createLancamento() {
+        // Variáveis
         String descricao;
         BigDecimal valor;
         Lancamento.TipoLancamento tipo;
@@ -18,16 +20,19 @@ public class ControleFinanceiro {
         System.out.print("> ");
         inform = scanner.nextLine();
         while (inform.isBlank()) {
+            // Não permite prosseguir enquanto estiver vazio
             System.out.println("\nA descrição não pode estar vazia.\nInforme a Descrição do lançamento:");
             System.out.print("> ");
             inform = scanner.nextLine();
         }
+        // Atribui o valor obtido no scanner à variável
         descricao = inform;
-        do {
+        while (true) {
             System.out.println("\nInforme o VALOR do lançamento:");
             System.out.print("> ");
             inform = scanner.nextLine();
             try {
+                // Checa se o número digitado é inteiro. Se ele não for, ele repete o processo
                 BigDecimal valorScan = new BigDecimal(Integer.parseInt(inform));
                 if (valorScan.compareTo(BigDecimal.ZERO) > 0) {
                     valor = valorScan;
@@ -38,14 +43,16 @@ public class ControleFinanceiro {
             } catch (java.lang.NumberFormatException e) {
                 System.out.println("Valor deve ser um número inteiro");
             }
-        } while (true);
+        }
         loopLancamento: while (true) {
             System.out.println("\nTipos de Lançamento:");
+            // Lista todos os elementos possíveis do enum
             for (Lancamento.TipoLancamento info : EnumSet.allOf(Lancamento.TipoLancamento.class)) {
                 System.out.println(info);
             }
             System.out.print("\n> ");
             inform = scanner.nextLine();
+            // Checa se o valor digitado corresponde a algum valor definido no enum
             for (Lancamento.TipoLancamento info : EnumSet.allOf(Lancamento.TipoLancamento.class)) {
                 if (inform.toUpperCase().equals(info.toString())) {
                     tipo = info;
@@ -56,11 +63,13 @@ public class ControleFinanceiro {
         }
         loopCategoria: while (true) {
             System.out.println("\nTipos de Categoria:");
+            // Lista todos os elementos possíveis do enum
             for (Lancamento.Categoria info : EnumSet.allOf(Lancamento.Categoria.class)) {
                 System.out.println(info);
             }
             System.out.print("\n> ");
             inform = scanner.nextLine();
+            // Checa se o valor digitado corresponde a algum valor definido no enum
             for (Lancamento.Categoria info : EnumSet.allOf(Lancamento.Categoria.class)) {
                 if (inform.toUpperCase().equals(info.toString())) {
                     categoria = info;
@@ -69,7 +78,7 @@ public class ControleFinanceiro {
             }
             System.out.println("\nDeve ser uma categoria pertencente à lista\n");
         }
-
+        // Cria um novo objeto Lancamento, utilizando as variáveis definidas anteriormente
         Lancamento lancamento = new Lancamento(descricao, valor, tipo, categoria);
         lancamento.setIndentificador(definirIdentificador());
         lancamento.mostrarDadosLancamento();
@@ -144,7 +153,8 @@ public class ControleFinanceiro {
                             Lancamento antigoLancamento = l;
                             String inform;
                             System.out.println("\nobs.: TODOS OS DADOS DEIXADOS VAZIOS SERÃO MANTIDOS\n");
-                            System.out.println("\nInforme outra DESCRIÇÃO para o lançamento (atual: \"" + l.getDescricao() + "\")");
+                            System.out.println("\nInforme outra DESCRIÇÃO para o lançamento (atual: \""
+                                    + l.getDescricao() + "\")");
                             System.out.print("> ");
                             inform = scanner.nextLine();
                             if (!inform.isBlank()) {
@@ -152,7 +162,8 @@ public class ControleFinanceiro {
                             } else
                                 System.out.println("Descrição \"" + l.getDescricao() + "\" mantida.");
                             while (true) {
-                                System.out.println("\nInforme outro VALOR para o lançamento (atual: \"" + l.getValor().toString() + "\")");
+                                System.out.println("\nInforme outro VALOR para o lançamento (atual: \""
+                                        + l.getValor().toString() + "\")");
                                 System.out.print("> ");
                                 inform = scanner.nextLine();
                                 try {
@@ -176,11 +187,13 @@ public class ControleFinanceiro {
                                 for (Lancamento.TipoLancamento info : EnumSet.allOf(Lancamento.TipoLancamento.class)) {
                                     System.out.println(info);
                                 }
-                                System.out.println("\nInforme outro TIPO para o lançamento (atual: \"" + l.getTipo().toString() + "\")");
+                                System.out.println("\nInforme outro TIPO para o lançamento (atual: \""
+                                        + l.getTipo().toString() + "\")");
                                 System.out.print("\n> ");
                                 inform = scanner.nextLine();
                                 if (inform.isBlank()) {
-                                    System.out.println("Tipo de lançamento \"" + l.getTipo().toString() + "\" mantido.");
+                                    System.out
+                                            .println("Tipo de lançamento \"" + l.getTipo().toString() + "\" mantido.");
                                     break;
                                 }
                                 for (Lancamento.TipoLancamento info : EnumSet.allOf(Lancamento.TipoLancamento.class)) {
@@ -196,7 +209,8 @@ public class ControleFinanceiro {
                                 for (Lancamento.Categoria info : EnumSet.allOf(Lancamento.Categoria.class)) {
                                     System.out.println(info);
                                 }
-                                System.out.println("\nInforme outra CATEGORIA para o lançamento (atual: \"" + l.getCategoria().toString() + "\")");
+                                System.out.println("\nInforme outra CATEGORIA para o lançamento (atual: \""
+                                        + l.getCategoria().toString() + "\")");
                                 System.out.print("\n> ");
                                 inform = scanner.nextLine();
                                 if (inform.isBlank()) {
