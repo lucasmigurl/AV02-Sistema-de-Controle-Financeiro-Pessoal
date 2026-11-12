@@ -16,7 +16,7 @@ public class Main
         ControleFinanceiro controleFinanceiro = new ControleFinanceiro();
 
         loop: while (true) {
-            System.out.println("COMANDOS:\n1 - Cadastrar lançamento\n2 - Listar lançamentos\n3 - Consultar por identificador\n4 - Alterar lançamento\n5 - Excluir lançamento\n6 - Filtrar por tipo\n7 - Consultar por período\n8 - Exibir resumo financeiro\n0 - Sair\n");
+            System.out.println("COMANDOS:\n1 - Cadastrar lançamento\n2 - Listar lançamentos\n3 - Consultar por identificador\n4 - Alterar lançamento\n5 - Excluir lançamento\n6 - Filtrar por tipo\n7 - Consultar por período\n8 - Exibir resumo financeiro\n9 - Outros comandos\n0 - Sair\n");
             System.out.print("> ");
             String cmd = scanner.nextLine();
             try
@@ -27,6 +27,7 @@ public class Main
                         controleFinanceiro.createLancamento();
                         break;
                     case 2:
+                        System.out.println("LANÇAMENTOS:\n");
                         controleFinanceiro.listarLancamentos();
                         break;
                     case 3:
@@ -36,10 +37,10 @@ public class Main
                         controleFinanceiro.alterarDadosPeloIdentificador();
                         break;
                     case 5:
-                        System.out.println("\nComando inexistente\n");
+                        controleFinanceiro.excluirLancamentoPeloID();
                         break;
                     case 6:
-                        System.out.println("\nComando inexistente\n");
+                        controleFinanceiro.filtrarPorTipo();
                         break;
                     case 7:
                         System.out.println("\nComando inexistente\n");
@@ -47,17 +48,25 @@ public class Main
                     case 8:
                         System.out.println("\nComando inexistente\n");
                         break;
+                    case 9:
+                        System.out.println("OUTROS COMANDOS\n100 - Limpar console\n");
+                        break;
                     case 0:
                         break loop;
+                    case 100:
+                        for (int count = 0; count < 100; count++)
+                        {
+                            System.out.println();
+                        }
+                        break;
                     default:
                         System.out.println("\nComando inexistente\n");
-                        continue loop;
+                    break;
                 }
             }
             catch (java.lang.NumberFormatException e)
             {
                 System.out.println("\nFormato do comando inválido (deve ser um número inteiro)\n");
-                continue loop;
             }
 
         }
