@@ -43,10 +43,10 @@ public class Main
                         controleFinanceiro.filtrarPorTipo();
                         break;
                     case 7:
-                        System.out.println("\nComando inexistente\n");
+                        controleFinanceiro.consultarPorPeriodo();
                         break;
                     case 8:
-                        System.out.println("\nComando inexistente\n");
+                        controleFinanceiro.exibirResumoFinanceiro();
                         break;
                     case 9:
                         System.out.println("OUTROS COMANDOS\n100 - Limpar console\n");
