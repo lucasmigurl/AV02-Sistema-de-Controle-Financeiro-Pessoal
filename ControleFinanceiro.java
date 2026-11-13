@@ -89,9 +89,9 @@ public class ControleFinanceiro {
     }
 
     public void listarLancamentos() {
-        if (lancamentos.isEmpty()) {
+        if (lancamentos.isEmpty()) { // Se não houver lancamentos registrados
             System.out.println("Não há lançamentos listados.");
-        } else {
+        } else { // Se houver lancamentos registrados, ele mostra os dados de cada um da lista
             for (Lancamento l : lancamentos) {
                 l.mostrarDadosLancamento();
             }
@@ -101,7 +101,7 @@ public class ControleFinanceiro {
 
     public void consultarLancamentoPeloID() {
         loopConsulta: while (true) {
-            if (checarSeAListaIsEmpty(""))
+            if (checarSeAListaIsEmpty("")) // Verifica se lancamentos está vazio. Se sim, executa a função e sai do while
                 break;
             System.out.println("\nInforme o identificador do lançamento que deseja consultar");
             mostrarOpcoesDeIdentificador();
@@ -109,15 +109,15 @@ public class ControleFinanceiro {
             String scanID = scanner.nextLine();
             try {
                 int checkID = Integer.parseInt(scanID);
-                for (Lancamento l : lancamentos) {
-                    if (l.getIndentificador() == checkID) {
+                for (Lancamento l : lancamentos) {          // Percorre os lancamentos e
+                    if (l.getIndentificador() == checkID) { // se existir um lancamento igual ao digitado pelo usuário, mostra os dados
                         System.out.println("\nDados do lançamento com identificador \"" + scanID + "\":");
                         l.mostrarDadosLancamento();
                         break loopConsulta;
                     }
                 }
                 System.out.println("Não existem lançamentos listados com esse identificador (" + scanID + ")");
-                break;
+                break; // Se não existirem lancamentos com o ID fornecido
 
             } catch (java.lang.NumberFormatException e) {
                 System.out.println("\nValor deve ser um número inteiro\n");
@@ -130,10 +130,10 @@ public class ControleFinanceiro {
     private int definirIdentificador() {
         int id = 0;
         for (Lancamento l : lancamentos) {
-            if (l.getIndentificador() == id + 2) {
+            if (l.getIndentificador() == id + 2) { // tem que lembrar o que isso faz
                 break;
-            } else if (l.getIndentificador() > id) {
-                id = l.getIndentificador();
+            } else if (l.getIndentificador() > id) { // isso também
+                id = l.getIndentificador(); // Eu até sei o que faz, mas não lembro o porque ele faz isso assim.
             }
         }
         return ++id;
@@ -141,7 +141,7 @@ public class ControleFinanceiro {
 
     public void alterarDadosPeloIdentificador() {
         loopConsulta: while (true) {
-            if (checarSeAListaIsEmpty("Não há lançamentos listados para alterar."))
+            if (checarSeAListaIsEmpty("Não há lançamentos listados para alterar.")) // Se a lista tá vazia, isso impede de alterar o nada
                 break;
             System.out.println("\nInforme o identificador do lançamento que deseja alterar");
             mostrarOpcoesDeIdentificador();
@@ -152,11 +152,11 @@ public class ControleFinanceiro {
 
                 for (Lancamento l : lancamentos) {
                     if (l.getIndentificador() == checkID) {
-                        Lancamento antigoLancamento = l;
+                        Lancamento antigoLancamento = l; // Guarda o lancamento antigo para mostrar a diferença no final
                         String inform;
-                        System.out.println("\nobs.: TODOS OS DADOS DEIXADOS VAZIOS SERÃO MANTIDOS\n");
+                        System.out.println("\nobs.: TODOS OS DADOS DEIXADOS VAZIOS SERÃO MANTIDOS INALTERADOS\n");
                         System.out.println("\nInforme outra DESCRIÇÃO para o lançamento (atual: \""
-                                + l.getDescricao() + "\")");
+                                + l.getDescricao() + "\")"); // Daqui pra baixo tá bem intuitivo de entender o que cada coisa faz
                         System.out.print("> ");
                         inform = scanner.nextLine();
                         if (!inform.isBlank()) {
@@ -184,10 +184,10 @@ public class ControleFinanceiro {
                                 System.out.println("Valor deve ser um número decimal");
                             }
                         }
-                        loopLancamento: while (true) {
-                            System.out.println("\nTipos de Lançamento:");
+                        loopTipo: while (true) {
+                            System.out.println("\nTipos de Lançamento:"); // Este for verifica os itens de dentro do enum
                             for (Lancamento.TipoLancamento info : EnumSet.allOf(Lancamento.TipoLancamento.class)) {
-                                System.out.println(info);
+                                System.out.println(info); // Imprime cada item
                             }
                             System.out.println("\nInforme outro TIPO para o lançamento (atual: \""
                                     + l.getTipo().toString() + "\")");
@@ -201,13 +201,13 @@ public class ControleFinanceiro {
                             for (Lancamento.TipoLancamento info : EnumSet.allOf(Lancamento.TipoLancamento.class)) {
                                 if (inform.toUpperCase().equals(info.toString())) {
                                     l.setTipo(info);
-                                    break loopLancamento;
+                                    break loopTipo;
                                 }
                             }
                             System.out.println("\nDeve ser um valor pertencente à lista\n");
                         }
                         loopCategoria: while (true) {
-                            System.out.println("\nTipos de Categoria:");
+                            System.out.println("\nTipos de Categoria:"); // Parecido com que o for acima fez
                             for (Lancamento.Categoria info : EnumSet.allOf(Lancamento.Categoria.class)) {
                                 System.out.println(info);
                             }
@@ -227,7 +227,7 @@ public class ControleFinanceiro {
                             }
                             System.out.println("\nDeve ser uma categoria pertencente à lista\n");
                         }
-                        l.dataAlterada();
+                        l.dataAlterada(); // Define uma data de alteração para esse lancamento
                         System.out.println("\nDados antigos:");
                         antigoLancamento.mostrarDadosLancamento();
                         System.out.println("Dados atualizados:");
@@ -249,7 +249,7 @@ public class ControleFinanceiro {
 
     private void mostrarOpcoesDeIdentificador() {
         System.out.println("Identificadores disponíveis:");
-        for (Lancamento l : lancamentos) {
+        for (Lancamento l : lancamentos) { // Mostra dos ids dos lancamentos concatenados com sua respectiva descrição
             System.out.println(l.getIndentificador() + ". " + l.getDescricao());
         }
     }
@@ -305,14 +305,14 @@ public class ControleFinanceiro {
     }
 
     private boolean checarSeAListaIsEmpty(String text) {
-        if (!text.isBlank() && lancamentos.isEmpty()) {
-            System.out.println(text);
-            return true;
+        if (!text.isBlank() && lancamentos.isEmpty()) { // Checa se a lista é vazia
+            System.out.println(text); // Se o parâmetro for preenchido com um valor diferente de blank, ele imprime a mensagem personalizada
+            return true;    // Retorna que a lista está vazia
         } else if (lancamentos.isEmpty()) {
             System.out.println("Não há lançamentos listados.");
-            return true;
+            return true;    // Retorna que a lista está vazia
         }
-        return false;
+        return false;       // Retorna que a lista NÃO está vazia
     }
 
     public void filtrarPorTipo()
@@ -327,7 +327,7 @@ public class ControleFinanceiro {
             }
             System.out.print("\n> ");
             inform = scanner.nextLine();
-            // Checa se o valor digitado corresponde a algum valor definido no enum
+            // Checa se o valor digitado no inform corresponde a algum valor definido no enum
             for (Lancamento.TipoLancamento info : EnumSet.allOf(Lancamento.TipoLancamento.class)) {
                 if (inform.toUpperCase().equals(info.toString())) {
                     System.out.println("Lançamentos do tipo \"" + info.toString() + "\"");
