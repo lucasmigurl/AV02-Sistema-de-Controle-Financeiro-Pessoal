@@ -70,11 +70,11 @@ public class Lancamento
     public LocalDateTime getRawData() {
         return data;
     }
-/*
-    public void setData(LocalDate data.format(dataFormat)) {
-        this.data.format(dataFormat) = data.format(dataFormat);
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
-*/
+
     public TipoLancamento getTipo() {
         return tipo;
     }
@@ -107,8 +107,11 @@ public class Lancamento
 
     public String getDataDeAlteracao()
     {
-        dataDeModificao = LocalDateTime.now();
         return dataDeModificao.format(dataTimeFormat);
+    }
+
+    public void setDataAlteracao(LocalDateTime data) {
+        this.dataDeModificao = data;
     }
 
     public static String formatLocalDate(LocalDate localDate)

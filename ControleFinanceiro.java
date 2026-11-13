@@ -1,4 +1,5 @@
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -7,7 +8,7 @@ import java.util.Scanner;
 
 public class ControleFinanceiro {
     List<Lancamento> lancamentos = new ArrayList<>();
-    Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
 
     // Coleta os dados para criar um novo objeto de Lancamento e colocar na lista
     public void createLancamento() {
@@ -20,14 +21,25 @@ public class ControleFinanceiro {
         System.out.println("\nInforme a DESCRIÇÃO do lançamento:");
         System.out.print("> ");
         inform = scanner.nextLine();
-        while (inform.isBlank()) {
-            // Não permite prosseguir enquanto estiver vazio
-            System.out.println("\nA descrição não pode estar vazia.\nInforme a Descrição do lançamento:");
-            System.out.print("> ");
-            inform = scanner.nextLine();
+        while(true){
+            if (inform.isBlank()) {
+                // Não permite prosseguir enquanto estiver vazio
+                System.out.println("\nA descrição não pode estar vazia.\nInforme a Descrição do lançamento:");
+                System.out.print("> ");
+                inform = scanner.nextLine();
+            }
+            else if (inform.contains(";")) {
+                // Não permite prosseguir enquanto estiver vazio
+                System.out.println("\nCaractere inválido \";\"\nInforme a Descrição do lançamento:");
+                System.out.print("> ");
+                inform = scanner.nextLine();
+            }
+            else{
+                descricao = inform;
+                break;
+            }
         }
         // Atribui o valor obtido no scanner à variável
-        descricao = inform;
         loopLancamento: while (true) {
             System.out.println("\nTipos de Lançamento:");
             // Lista todos os elementos possíveis do enum
@@ -179,7 +191,7 @@ public class ControleFinanceiro {
                                     System.out.println("Valor \"" + l.getValor().toString() + "\" mantido.");
                                     break;
                                 }
-                                BigDecimal valorScan = new BigDecimal(Integer.parseInt(inform));
+                                BigDecimal valorScan = new BigDecimal(inform);
                                 if (valorScan.compareTo(BigDecimal.ZERO) > 0) {
                                     l.setValor(valorScan);
                                     break;
@@ -507,11 +519,11 @@ public class ControleFinanceiro {
 
         for (Lancamento l : lancamentos) {
             if (l.getTipo() == Lancamento.TipoLancamento.RECEITA) {
-                receitas.add(l.getValor());
+                receitas = receitas.add(l.getValor());
                 contadorReceita++;
             } else // if (l.getTipo() == Lancamento.TipoLancamento.DESPESA)
             {
-                despesas.add(l.getValor());
+                despesas = despesas.add(l.getValor());
                 contadorDespesa++;
             }
         }
